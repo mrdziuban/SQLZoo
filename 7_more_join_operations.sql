@@ -153,3 +153,14 @@ SELECT a.name
             ON casting.actorid = actor.id
          WHERE actor.name != 'Art Garfunkel') as a
     ON m.id = a.movieid;
+-- # Another solution.
+SELECT actor.name 
+FROM actor 
+JOIN casting
+ON actor.id = casting.actorid
+WHERE casting.movieid in (SELECT casting.movieid 
+                            FROM actor
+                            JOIN casting
+                            ON actor.id = casting.actorid
+                            WHERE actor.name='Art Garfunkel')
+AND actor.name != 'Art Garfunkel';
