@@ -121,13 +121,22 @@ GROUP BY actor.name
 HAVING COUNT(*) >= 30;
 
 -- # 15. List the 1978 films by order of cast list size.
-SELECT movie.title, COUNT(*)
+SELECT movie.title, COUNT(*) 
 FROM movie
 JOIN casting
 ON movie.id = casting.movieid
 WHERE movie.yr = 1978
 GROUP BY movie.id
 ORDER BY COUNT(*) DESC
+-- # Above code gets wrong in MySQL. We have to do some 
+-- # modifictation with it. 
+-- SELECT movie.title, COUNT(*) As actors
+-- FROM movie
+-- JOIN casting
+-- ON movie.id = casting.movieid
+-- WHERE movie.yr = 1978
+-- GROUP BY movie.id
+-- ORDER BY actors DESC
 
 -- # 16. List all the people who have worked with 'Art Garfunkel'.
 SELECT a.name
@@ -144,3 +153,14 @@ SELECT a.name
             ON casting.actorid = actor.id
          WHERE actor.name != 'Art Garfunkel') as a
     ON m.id = a.movieid;
+-- # Another solution.
+SELECT actor.name 
+FROM actor 
+JOIN casting
+ON actor.id = casting.actorid
+WHERE casting.movieid in (SELECT casting.movieid 
+                            FROM actor
+                            JOIN casting
+                            ON actor.id = casting.actorid
+                            WHERE actor.name='Art Garfunkel')
+AND actor.name != 'Art Garfunkel';

@@ -104,7 +104,7 @@ SELECT game.mdate,
            ELSE 0
            END) AS score2
 FROM game
-JOIN goal
+LEFT JOIN goal
 ON (game.id = goal.matchid)
 GROUP BY game.id
 ORDER BY game.mdate, goal.matchid
