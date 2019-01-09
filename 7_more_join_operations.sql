@@ -126,7 +126,7 @@ FROM movie
 JOIN casting
 ON movie.id = casting.movieid
 WHERE movie.yr = 1978
-GROUP BY movie.id
+GROUP BY movie.title
 ORDER BY COUNT(*) DESC
 
 -- # 16. List all the people who have worked with 'Art Garfunkel'.
